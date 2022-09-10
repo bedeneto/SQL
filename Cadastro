@@ -1,0 +1,42 @@
+from PyQt5 import uic, QtWidgets
+import mysql.connector
+
+# CRIAR A CONEXÃO COM O BANCO DE DADOS
+banco = mysql.connector.connect(
+    host = 'localhost',
+    user = 'root',
+    passwd = '',
+    database = 'aluno'
+)
+
+
+def cadastro():
+    linhaUm = formulario.lineEdit.text()
+    linhaDois = formulario.lineEdit_2.text()
+
+    # CADASTRAR OS USUARIOS - BANCO DE DADOS
+    cursor = banco.cursor()
+    comando_SQL = "INSERT INTO usuario (nome, senha) VALUES (%s, %s)"
+    dados = (str(linhaUm), str(linhaDois))
+    cursor.execute(comando_SQL, dados)
+    banco.commit()
+
+
+def segundaTela():
+    segTela.show()
+
+# ------------ Inicio ------------- #
+# Gerar a aplicação
+app = QtWidgets.QApplication([])
+
+# Carregar arquivo .ui
+formulario = uic.loadUi('login.ui')
+segTela = uic.loadUi('SegundaTela.ui')
+
+# Ação do botão
+formulario.pushButton.clicked.connect(cadastro)
+formulario.pushButton_2.clicked.connect(segundaTela)
+
+# Exibir a janela
+formulario.show()
+app.exec()
