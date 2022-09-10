@@ -23,7 +23,27 @@ def cadastro():
 
 
 def segundaTela():
+    # Exibir a segunda tela
     segTela.show()
+
+    # Comando para exibir os usuarios na segunda tela
+    cursor = banco.cursor()
+    comando_SQL = "SELECT * FROM usuario"
+    cursor.execute(comando_SQL)
+    dados_lidos = cursor.fetchall()
+
+    # Exibir dentro da tela - criar a tabela
+    segTela.tableWidget.setRowCount(len(dados_lidos))
+    segTela.tableWidget.setColumnCount(3)
+
+    # Passar os dados para a tabela criada
+    for i in range(0, len(dados_lidos)):
+        for j in range(0, 3):
+            segTela.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
+
+
+
+
 
 # ------------ Inicio ------------- #
 # Gerar a aplicação
